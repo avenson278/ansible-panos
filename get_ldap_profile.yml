@@ -1,0 +1,17 @@
+- name: Get Palo Alto Get LDAP Server Profile 
+  hosts: "{{ host_group }}"
+  connection: local
+  gather_facts: no
+
+  tasks:
+    - name: get ldap profile on remote devices
+      paloaltonetworks.panos.panos_op:
+        command: show shared server-profile ldap
+        
+        provider:
+          username: "{{ user }}"
+          ip_address: "{{ ansible_host }}"
+          password: "{{ password }}"
+      delegate_to: localhost
+      vars:
+        ansible_command_timeout: "{{ ansible_timeout | default('240') }}"
